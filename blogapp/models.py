@@ -1,14 +1,7 @@
-from distutils.command.upload import upload
-from email.mime import image
-from enum import unique
-import imp
-from operator import imod
-from re import U
-from tabnanny import verbose
-from unicodedata import category
 from django.db import models
 from autoslug import AutoSlugField
 from django.contrib.auth.models import User
+from ckeditor.fields import RichTextField
 
 # Create your models here.
 
@@ -28,7 +21,7 @@ class CategoryModule(models.Model):
 class ArticleModel(models.Model):
   image = models.ImageField(upload_to='article_images')
   title = models.CharField(max_length=100)
-  content = models.TextField()
+  content = RichTextField()
   created_date = models.DateTimeField(auto_now_add=True)
   edited_date = models.DateTimeField(auto_now=True)
   slug = AutoSlugField(populate_from='title', unique=True)
