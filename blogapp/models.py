@@ -1,6 +1,3 @@
-from statistics import mode
-from tabnanny import verbose
-from venv import create
 from django.db import models
 from autoslug import AutoSlugField
 from django.contrib.auth.models import User
@@ -54,3 +51,18 @@ class CommentsModel(models.Model):
 
   def __str__(self) -> str:
     return self.commenter.username
+  
+
+class ContactModel(models.Model):
+  full_name = models.CharField(max_length=100)
+  email = models.EmailField(max_length=250)
+  message = models.TextField()
+  created_date = models.DateTimeField(auto_now_add=True)
+
+  class Meta:
+    db_table = 'contact'
+    verbose_name = 'Əlaqə'
+    verbose_name_plural = 'Əlaqə'
+    
+  def __str__(self) -> str:
+    return self.full_name
