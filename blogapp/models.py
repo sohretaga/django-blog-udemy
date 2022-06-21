@@ -1,3 +1,6 @@
+from statistics import mode
+from tabnanny import verbose
+from venv import create
 from django.db import models
 from autoslug import AutoSlugField
 from django.contrib.auth.models import User
@@ -35,3 +38,19 @@ class ArticleModel(models.Model):
   
   def __str__(self) -> str:
     return self.title
+
+
+class CommentsModel(models.Model):
+  commenter = models.ForeignKey(User, on_delete=models.CASCADE, related_name='comment')
+  article = models.ForeignKey(ArticleModel, on_delete=models.CASCADE, related_name='comments')
+  comment = models.TextField()
+  created_date = models.DateTimeField(auto_now_add=True)
+  edited_date = models.DateTimeField(auto_now=True)
+
+  class Meta:
+    db_table = 'comment'
+    verbose_name = 'Rəy'
+    verbose_name_plural = 'Rəylər'
+
+  def __str__(self) -> str:
+    return self.commenter.username
