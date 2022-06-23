@@ -26,7 +26,7 @@ class ArticleModel(models.Model):
   edited_date = models.DateTimeField(auto_now=True)
   slug = AutoSlugField(populate_from='title', unique=True)
   category = models.ManyToManyField(CategoryModule, related_name='article')
-  author = models.ForeignKey(User, on_delete=models.CASCADE, related_name='articles')
+  author = models.ForeignKey('account.CustomUserModel', on_delete=models.CASCADE, related_name='articles')
 
   class Meta:
     db_table = 'article'
@@ -38,7 +38,7 @@ class ArticleModel(models.Model):
 
 
 class CommentsModel(models.Model):
-  commenter = models.ForeignKey(User, on_delete=models.CASCADE, related_name='comment')
+  commenter = models.ForeignKey('account.CustomUserModel', on_delete=models.CASCADE, related_name='comment')
   article = models.ForeignKey(ArticleModel, on_delete=models.CASCADE, related_name='comments')
   comment = models.TextField()
   created_date = models.DateTimeField(auto_now_add=True)
