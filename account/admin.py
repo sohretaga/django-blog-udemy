@@ -4,12 +4,10 @@ from .models import CustomUserModel
 
 # Register your models here.
 
-
+@admin.register(CustomUserModel)
 class CustomUserModelAdmin(UserAdmin):
     fieldsets = UserAdmin.fieldsets + (
       ('Avatar ', {
         'fields':['avatar']
       }),
     )
-
-admin.site.register(CustomUserModel, CustomUserModelAdmin)

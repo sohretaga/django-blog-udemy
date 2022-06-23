@@ -1,7 +1,7 @@
 from django.db import models
 from autoslug import AutoSlugField
-from django.contrib.auth.models import User
 from ckeditor.fields import RichTextField
+from .abstracts import DateAbstractModel
 
 # Create your models here.
 
@@ -18,12 +18,10 @@ class CategoryModule(models.Model):
     return self.name
 
 
-class ArticleModel(models.Model):
+class ArticleModel(DateAbstractModel):
   image = models.ImageField(upload_to='article_images')
   title = models.CharField(max_length=100)
   content = RichTextField()
-  created_date = models.DateTimeField(auto_now_add=True)
-  edited_date = models.DateTimeField(auto_now=True)
   slug = AutoSlugField(populate_from='title', unique=True)
   category = models.ManyToManyField(CategoryModule, related_name='article')
   author = models.ForeignKey('account.CustomUserModel', on_delete=models.CASCADE, related_name='articles')
@@ -37,12 +35,10 @@ class ArticleModel(models.Model):
     return self.title
 
 
-class CommentsModel(models.Model):
+class CommentsModel(DateAbstractModel):
   commenter = models.ForeignKey('account.CustomUserModel', on_delete=models.CASCADE, related_name='comment')
   article = models.ForeignKey(ArticleModel, on_delete=models.CASCADE, related_name='comments')
   comment = models.TextField()
-  created_date = models.DateTimeField(auto_now_add=True)
-  edited_date = models.DateTimeField(auto_now=True)
 
   class Meta:
     db_table = 'comment'
