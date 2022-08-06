@@ -51,3 +51,19 @@ class Comment(models.Model):
 
   def __str__(self) -> str:
     return self.author.username
+
+
+class Contact(models.Model):
+  email = models.EmailField(max_length=250)
+  full_name = models.CharField(max_length=150)
+  message = models.TextField()
+  created_date = models.DateTimeField(auto_now_add=True)
+
+  class Meta:
+    db_table = 'contact'
+    verbose_name = 'Contact'
+    verbose_name_plural = 'Contacts'
+  
+  def __str__(self) -> str:
+    return self.full_name
+

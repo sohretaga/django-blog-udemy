@@ -16,3 +16,9 @@ class PostAdmin(admin.ModelAdmin):
 class CommentAdmin(admin.ModelAdmin):
   list_display = ('author', 'post', 'created_date')
   search_fields = ('author__username',)
+
+@admin.register(models.Contact)
+class ContactAdmin(admin.ModelAdmin):
+  list_display = ('full_name', 'email', 'created_date')
+  list_filter = ('created_date',)
+  search_fields = ('email',)
