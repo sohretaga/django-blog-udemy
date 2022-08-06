@@ -9,4 +9,5 @@ class CategoryAdmin(admin.ModelAdmin):
 
 @admin.register(models.Post)
 class PostAdmin(admin.ModelAdmin):
-  list_display = ('title', 'category', 'author', 'created_date')
+  list_display = ('title', 'author', 'created_date')
+  search_fields = ('title',)

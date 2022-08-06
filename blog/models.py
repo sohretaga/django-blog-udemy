@@ -1,6 +1,7 @@
 from django.db import models
 from autoslug import AutoSlugField
 from django.contrib.auth.models import User
+from ckeditor.fields import RichTextField
 
 # Create your models here.
 
@@ -19,7 +20,7 @@ class Category(models.Model):
 
 class Post(models.Model):
   title = models.CharField(max_length=50)
-  content = models.TextField()
+  content = RichTextField()
   image = models.ImageField(upload_to = 'post_images')
   author = models.ForeignKey(User, on_delete=models.CASCADE, related_name='author_post')
   slug = AutoSlugField(populate_from = 'title', unique = True)
@@ -31,3 +32,6 @@ class Post(models.Model):
     db_table = 'post'
     verbose_name = 'Post'
     verbose_name_plural = 'Posts'
+
+  def __str__(self) -> str:
+    return self.title
