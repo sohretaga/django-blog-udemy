@@ -11,3 +11,8 @@ class CategoryAdmin(admin.ModelAdmin):
 class PostAdmin(admin.ModelAdmin):
   list_display = ('title', 'author', 'created_date')
   search_fields = ('title',)
+
+@admin.register(models.Comment)
+class CommentAdmin(admin.ModelAdmin):
+  list_display = ('author', 'post', 'created_date')
+  search_fields = ('author__username',)
