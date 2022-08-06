@@ -1,6 +1,6 @@
 from django.db import models
 from autoslug import AutoSlugField
-from django.contrib.auth.models import User
+from account.models import CustomUser
 from ckeditor.fields import RichTextField
 
 # Create your models here.
@@ -22,7 +22,7 @@ class Post(models.Model):
   title = models.CharField(max_length=50)
   content = RichTextField()
   image = models.ImageField(upload_to = 'post_images')
-  author = models.ForeignKey(User, on_delete=models.CASCADE, related_name='author_post')
+  author = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='author_post')
   slug = AutoSlugField(populate_from = 'title', unique = True)
   category = models.ManyToManyField(Category, related_name='category_post')
   created_date = models.DateTimeField(auto_now_add=True)
@@ -38,7 +38,7 @@ class Post(models.Model):
 
 
 class Comment(models.Model):
-  author = models.ForeignKey(User, on_delete=models.CASCADE, related_name='comment')
+  author = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='comment')
   post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name='comments')
   comment = models.TextField()
   created_date = models.DateTimeField(auto_now_add=True)
