@@ -1,6 +1,7 @@
 from django.shortcuts import render, get_object_or_404
 from .models import Post, Category
 from django.core.paginator import Paginator
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 
@@ -20,9 +21,9 @@ def category(request, slug):
 def contact(request):
   return render(request, 'pages/contact.html')
 
-
+@login_required(login_url='/')
 def myblogs(request):
   context = {
-    'blogs': Paginator(request.user.author_post.order_by('-created_date'), 2).get_page(request.GET.get('page'))
+    'blogs': Paginator(request.user.author_post.order_by('-created_date'), 20).get_page(request.GET.get('page'))
   }
   return render(request, 'pages/myblogs.html', context)
