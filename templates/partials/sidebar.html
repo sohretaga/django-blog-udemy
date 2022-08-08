@@ -1,11 +1,13 @@
 <div class="card mb-3">
+  {% if request.user.is_authenticated %}
   <ul class="list-group list-group-flush">
     <li class="list-group-item">Tənzimlə</li>
     <li class="list-group-item">Şifrəni dəyişdir</li>
     <li class="list-group-item">Blog yaz</li>
     <li class="list-group-item">Bloglar</li>
+    <div class="card-footer">Çıxış et</div>
   </ul>
-  <div class="card-footer">
-    Çıxış et
-  </div>
+  {% else %}
+
+  {% endif %}
 </div>
