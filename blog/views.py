@@ -1,7 +1,9 @@
+from turtle import title
 from django.shortcuts import render, get_object_or_404
 from .models import Post, Category
 from django.core.paginator import Paginator
 from django.contrib.auth.decorators import login_required
+from django.db.models import Q
 
 # Create your views here.
 
@@ -27,3 +29,12 @@ def myblogs(request):
     'blogs': Paginator(request.user.author_post.order_by('-created_date'), 20).get_page(request.GET.get('page'))
   }
   return render(request, 'pages/myblogs.html', context)
+
+
+def search(request):
+  if request.GET.get('key'):
+    context = {
+      'blogs': Paginator(Post.objects.filter(Q(title__icontains=request.GET.get('key')) | Q(content__icontains=request.GET.get('key'))).distinct(), 2).get_page(request.GET.get('page')),
+      'key': request.GET.get('key')
+    }
+  return render(request, 'pages/search.html', context)
