@@ -18,7 +18,7 @@
     {% for blog in blogs %}
     <tr>
       <th scope="row">{{blog.id}}</th>
-      <td>{{blog.title|title}}</td>
+      <a href="{% url 'detail' blog.slug %}"><td>{{blog.title|title}}</td></a>
       <td>{{blog.update_date|timesince}}</td>
       <td>Delete - Update</td>
     </tr>

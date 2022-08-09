@@ -1,10 +1,9 @@
 {% extends 'partials/base.html' %}
 
 
-{% block title %} Search - {{key|title}} {% endblock title %}
+{% block title %} Agaews - {{blog.title}} {% endblock title %}
 
 {% block content %}
-{% for blog in blogs %}
 <div class="card mb-3">
   <div class="row g-0">
     <div class="col-md-4">
@@ -12,18 +11,13 @@
     </div>
     <div class="col-md-8">
       <div class="card-body">
-        <a href="{% url 'detail' blog.slug %}"><h5 class="card-title">{{blog.title}}</h5></a>
-        <p class="card-text">{{blog.content|safe|truncatechars_html:150}}</p>
+        <h5 class="card-title">{{blog.title}}</h5>
+        <p class="card-text">{{blog.content|safe}}</p>
         <p class="card-text"><small class="text-muted">{{blog.update_date|timesince}}</small></p>
       </div>
     </div>
   </div>
 </div>
-{% empty %}
-<p>No Blogs</p>
-{% endfor %}
-
-{% include 'partials/pagination.html' %}
 
 {% endblock content %}
   

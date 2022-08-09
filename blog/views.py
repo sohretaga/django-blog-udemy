@@ -1,4 +1,3 @@
-from turtle import title
 from django.shortcuts import render, get_object_or_404
 from .models import Post, Category
 from django.core.paginator import Paginator
@@ -38,3 +37,10 @@ def search(request):
       'key': request.GET.get('key')
     }
   return render(request, 'pages/search.html', context)
+
+def detail(request, slug):
+  context={
+    'blog': get_object_or_404(Post, slug=slug),
+    'comments': get_object_or_404(Post, slug=slug).comments.all()
+  }
+  return render(request, 'pages/detail.html', context)
