@@ -18,7 +18,9 @@
         {% if request.user == blog.author %}
           <p>
             <a class="btn btn-primary" href="{% url 'update-blog' blog.slug %}">Update</a>
+            <a class="btn btn-danger" href="{% url 'delete-blog' blog.slug %}">Delete</a>
           </p>
+
         {% endif %}
           
       </div>

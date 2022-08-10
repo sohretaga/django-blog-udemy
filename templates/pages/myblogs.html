@@ -20,7 +20,12 @@
       <th scope="row">{{blog.id}}</th>
       <a href="{% url 'detail' blog.slug %}"><td>{{blog.title|title}}</td></a>
       <td>{{blog.update_date|timesince}}</td>
-      <td>Delete - Update</td>
+      <td>
+        <p>
+          <a class="btn btn-primary" href="{% url 'update-blog' blog.slug %}">Update</a>
+          <a class="btn btn-danger" href="{% url 'delete-blog' blog.slug %}">Delete</a>
+        </p>
+      </td>
     </tr>
     {% empty %}
     <p>No Blogs</p>

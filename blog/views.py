@@ -91,3 +91,8 @@ def updateBlog(request, slug):
     'form': form
   }
   return render(request, 'pages/update-blog.html', context)
+
+
+def deleteBlog(request, slug):
+  get_object_or_404(Post, slug=slug, author=request.user).delete()
+  return redirect('myblogs')
