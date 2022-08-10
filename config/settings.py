@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'account',
     'ckeditor',
     'config',
+    'crispy_forms',
 ]
 
 MIDDLEWARE = [
@@ -135,3 +136,5 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
 AUTH_USER_MODEL = 'account.CustomUser'
+
+CRISPY_TEMPLATE_PACK = 'bootstrap4'

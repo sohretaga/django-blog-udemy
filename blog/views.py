@@ -1,8 +1,9 @@
-from django.shortcuts import render, get_object_or_404
-from .models import Post, Category
+from django.shortcuts import render, get_object_or_404, redirect
+from .models import Post, Category, Contact
 from django.core.paginator import Paginator
 from django.contrib.auth.decorators import login_required
 from django.db.models import Q
+from .forms import ContactForm
 
 # Create your views here.
 
@@ -20,7 +21,27 @@ def category(request, slug):
   return render(request, 'pages/categories.html', context)
 
 def contact(request):
-  return render(request, 'pages/contact.html')
+  # form = ContactForm(data={
+  #   'full_name':'test'
+  # })
+  form = ContactForm(request.POST or None)
+  if request.method == 'POST' and form.is_valid():
+    # save method for forms.Form
+    # Contact.objects.create(
+    #   email = form.cleaned_data['email'],
+    #   full_name = form.cleaned_data['full_name'],
+    #   message = form.cleaned_data['message']
+    # ).save()
+
+    # save method for forms.ModelForm
+    form.save()
+    return redirect('index')
+  else:
+    print('no valid')
+  context = {
+    'form': form
+  }
+  return render(request, 'pages/contact.html', context)
 
 @login_required(login_url='/')
 def myblogs(request):
