@@ -14,12 +14,19 @@
         <h5 class="card-title">{{blog.title}}</h5>
         <p class="card-text">{{blog.content|safe}}</p>
         <p class="card-text"><small class="text-muted">{{blog.update_date|timesince}}</small></p>
+        
+        {% if request.user == blog.author %}
+          <p>
+            <a class="btn btn-primary" href="{% url 'update-blog' blog.slug %}">Update</a>
+          </p>
+        {% endif %}
+          
       </div>
     </div>
   </div>
 </div>
 
-<h1>Comments</h1>
+<h4>Comments</h4>
 {% for comment in comments %}
 <div class="card mb-3" >
   <div class="row g-0">

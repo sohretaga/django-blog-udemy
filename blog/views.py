@@ -1,9 +1,9 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from .models import Post, Category, Contact
+from .models import Post, Category
 from django.core.paginator import Paginator
 from django.contrib.auth.decorators import login_required
 from django.db.models import Q
-from .forms import ContactForm
+from .forms import ContactForm, BlogForm, UpdateBlogForm
 
 # Create your views here.
 
@@ -65,3 +65,29 @@ def detail(request, slug):
     'comments': get_object_or_404(Post, slug=slug).comments.all()
   }
   return render(request, 'pages/detail.html', context)
+
+@login_required(login_url='/')
+def addBlog(request):
+  form = BlogForm(request.POST or None, files=request.FILES or None)
+  if form.is_valid():
+    newBlog = form.save(commit=False)
+    newBlog.author = request.user
+    newBlog.save()
+    form.save_m2m()
+    return redirect('detail', slug=newBlog.slug)
+  context = {
+    'form': form
+  }
+  return render(request, 'pages/add-blog.html', context)
+
+@login_required(login_url='/')
+def updateBlog(request, slug):
+  blog = get_object_or_404(Post, slug=slug, author = request.user)
+  form = UpdateBlogForm(request.POST or None, request.FILES or None, instance=blog)
+  if form.is_valid():
+    form.save()
+    return redirect('detail', slug=blog.slug)
+  context = {
+    'form': form
+  }
+  return render(request, 'pages/update-blog.html', context)

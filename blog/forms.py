@@ -1,5 +1,5 @@
 from django import forms
-from .models import Contact
+from .models import Contact, Post
 
 class ContactForm(forms.ModelForm):
   #         forms.Form
@@ -15,3 +15,15 @@ class ContactForm(forms.ModelForm):
 # (attrs={
 #     'class':'form-control'
 #   })
+
+
+class BlogForm(forms.ModelForm):
+  class Meta:
+    model = Post
+    exclude = ('author', 'slug')
+
+
+class UpdateBlogForm(forms.ModelForm):
+  class Meta:
+    model = Post
+    exclude = ('author', 'slug')
