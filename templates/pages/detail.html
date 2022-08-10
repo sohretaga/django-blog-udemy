@@ -1,4 +1,5 @@
 {% extends 'partials/base.html' %}
+{% load crispy_forms_tags %}
 
 
 {% block title %} Agaews - {{blog.title}} {% endblock title %}
@@ -29,6 +30,17 @@
 </div>
 
 <h4>Comments</h4>
+
+{% if request.user.is_authenticated %}
+<form method="POST">
+  {% csrf_token %}
+  {{add_comment_form|crispy}}
+  <button class="btn btn-primary mt-3 mb-3">Post</button>
+</form>
+{% else %}
+<p>Login for comment</p>
+{% endif %}
+  
 {% for comment in comments %}
 <div class="card mb-3" >
   <div class="row g-0">
@@ -43,7 +55,12 @@
       </div>
     </div>
   </div>
+  {% if request.user == comment.author or request.user == blog.author %}
+  <a href="{% url 'delete-comment' comment.id %}">Delete</a>
+  {% endif %}
 </div>
+
+  
 {% empty %}
 <h3>No Comments..</h3>
 {% endfor %}

@@ -1,9 +1,9 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from .models import Post, Category
+from .models import Post, Category, Comment
 from django.core.paginator import Paginator
 from django.contrib.auth.decorators import login_required
 from django.db.models import Q
-from .forms import ContactForm, BlogForm, UpdateBlogForm
+from .forms import ContactForm, BlogForm, UpdateBlogForm, CommentForm
 
 # Create your views here.
 
@@ -60,9 +60,18 @@ def search(request):
   return render(request, 'pages/search.html', context)
 
 def detail(request, slug):
+  if request.method == 'POST':
+    add_comment_form = CommentForm(data=request.POST)
+    if add_comment_form.is_valid():
+      newCommet = add_comment_form.save(commit=False)
+      newCommet.author = request.user
+      newCommet.post = get_object_or_404(Post, slug=slug)
+      newCommet.save()
+  add_comment_form = CommentForm()
   context={
     'blog': get_object_or_404(Post, slug=slug),
-    'comments': get_object_or_404(Post, slug=slug).comments.all()
+    'comments': get_object_or_404(Post, slug=slug).comments.all(),
+    'add_comment_form': add_comment_form
   }
   return render(request, 'pages/detail.html', context)
 
@@ -96,3 +105,11 @@ def updateBlog(request, slug):
 def deleteBlog(request, slug):
   get_object_or_404(Post, slug=slug, author=request.user).delete()
   return redirect('myblogs')
+
+@login_required(login_url='/')
+def deleteComment(request, id):
+  comment = get_object_or_404(Comment, id=id)
+  if comment.author == request.user or comment.post.author == request.user:
+    comment.delete()
+    return redirect('detail', slug=comment.post.slug)
+  return redirect('index')
