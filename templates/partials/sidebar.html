@@ -2,10 +2,10 @@
   {% if request.user.is_authenticated %}
   <ul class="list-group list-group-flush">
     <li class="list-group-item">Tənzimlə</li>
-    <li class="list-group-item">Şifrəni dəyişdir</li>
+    <a href="{% url 'change-password' %}"><li class="list-group-item">Şifrəni dəyişdir</li></a>
     <a href="{% url 'add-blog' %}"><li class="list-group-item">Blog yaz</li></a>
     <a href="{% url 'myblogs' %}"><li class="list-group-item">Bloglarım</li></a>
-    <div class="card-footer">Çıxış et</div>
+    <a href="{% url 'logout' %}"><div class="card-footer">Çıxış et</div></a>
   </ul>
   {% else %}
 
