@@ -11,6 +11,7 @@ from django.contrib import messages
 @login_required(login_url='/')
 def userLogout(request):
   logout(request)
+  messages.success(request, 'Logout successfuly!')
   return redirect('index')
 
 def changePassword(request):
@@ -19,6 +20,7 @@ def changePassword(request):
     if form.is_valid():
       user = form.save()
       update_session_auth_hash(request, user)
+      messages.success(request, 'Password changed!')
       return redirect('myblogs')
   else:
     form = PasswordChangeForm(request.user)

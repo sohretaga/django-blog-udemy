@@ -1,9 +1,11 @@
+import re
 from django.shortcuts import render, get_object_or_404, redirect
 from .models import Post, Category, Comment
 from django.core.paginator import Paginator
 from django.contrib.auth.decorators import login_required
 from django.db.models import Q
 from .forms import ContactForm, BlogForm, UpdateBlogForm, CommentForm
+from django.contrib import messages
 
 # Create your views here.
 
@@ -83,6 +85,7 @@ def addBlog(request):
     newBlog.author = request.user
     newBlog.save()
     form.save_m2m()
+    messages.success(request, 'Blog posted!')
     return redirect('detail', slug=newBlog.slug)
   context = {
     'form': form
@@ -95,6 +98,7 @@ def updateBlog(request, slug):
   form = UpdateBlogForm(request.POST or None, request.FILES or None, instance=blog)
   if form.is_valid():
     form.save()
+    messages.success(request, 'Blog updated!')
     return redirect('detail', slug=blog.slug)
   context = {
     'form': form
@@ -104,6 +108,7 @@ def updateBlog(request, slug):
 
 def deleteBlog(request, slug):
   get_object_or_404(Post, slug=slug, author=request.user).delete()
+  messages.success(request, 'Blog deleted!')
   return redirect('myblogs')
 
 @login_required(login_url='/')
@@ -111,5 +116,6 @@ def deleteComment(request, id):
   comment = get_object_or_404(Comment, id=id)
   if comment.author == request.user or comment.post.author == request.user:
     comment.delete()
+    messages.success(request, 'Comment deleted!')
     return redirect('detail', slug=comment.post.slug)
   return redirect('index')
