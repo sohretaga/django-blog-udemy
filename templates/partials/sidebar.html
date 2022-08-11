@@ -1,7 +1,7 @@
 <div class="card mb-3">
   {% if request.user.is_authenticated %}
   <ul class="list-group list-group-flush">
-    <li class="list-group-item">Tənzimlə</li>
+    <a href="{% url 'update-account' %}"><li class="list-group-item">Tənzimlə</li></a>
     <a href="{% url 'change-password' %}"><li class="list-group-item">Şifrəni dəyişdir</li></a>
     <a href="{% url 'add-blog' %}"><li class="list-group-item">Blog yaz</li></a>
     <a href="{% url 'myblogs' %}"><li class="list-group-item">Bloglarım</li></a>

@@ -1,8 +1,10 @@
 from django.shortcuts import redirect, render
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth import login, logout, authenticate
+from django.contrib.auth import login, logout
 from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth import update_session_auth_hash
+from account.forms import UpdateAccountForm
+from django.contrib import messages
 
 # Create your views here.
 
@@ -24,3 +26,16 @@ def changePassword(request):
     'form': form
   }
   return render(request, 'change-password.html', context)
+
+@login_required(login_url='/')
+def updateAccount(request):
+  if request.method == 'POST':
+    form = UpdateAccountForm(request.POST, request.FILES, instance = request.user)
+    form.save()
+    messages.success(request, 'Account updated!')
+  else:
+    form = UpdateAccountForm(instance = request.user)
+  context = {
+    'form': form
+  }
+  return render(request, 'update-account.html', context)
