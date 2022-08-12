@@ -1,9 +1,9 @@
 from django.shortcuts import redirect, render
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth import login, logout
+from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth import update_session_auth_hash
-from account.forms import UpdateAccountForm
+from account.forms import UpdateAccountForm, UserCreateForm
 from django.contrib import messages
 
 # Create your views here.
@@ -41,3 +41,21 @@ def updateAccount(request):
     'form': form
   }
   return render(request, 'update-account.html', context)
+
+
+def signUp(request):
+  if request.method == 'POST':
+    form = UserCreateForm(request.POST)
+    if form.is_valid():
+      form.save()
+      login(request, user=authenticate(username=form.cleaned_data['username'], password=form.cleaned_data['password1']))
+      messages.success(request, 'Register successfly!')
+      return redirect('index')
+      
+  else:
+    form = UserCreateForm()
+  context = {
+    'form': form
+  }
+
+  return render(request, 'signup.html', context)
