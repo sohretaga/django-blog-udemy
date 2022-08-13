@@ -1,5 +1,6 @@
 from django.urls import path
 from . import views
+from django.views.generic import TemplateView
 
 urlpatterns = [
   path('', views.index, name='index'),
@@ -11,5 +12,6 @@ urlpatterns = [
   path('add-blog/', views.addBlog, name='add-blog'),
   path('update-blog/<slug:slug>/', views.updateBlog, name='update-blog'),
   path('delete/<slug:slug>', views.deleteBlog, name='delete-blog'),
-  path('delete-commet/<int:id>/', views.deleteComment, name='delete-comment')
+  path('delete-commet/<int:id>/', views.deleteComment, name='delete-comment'),
+  path('about/', TemplateView.as_view(template_name = 'pages/about.html'), name='about')
 ]
