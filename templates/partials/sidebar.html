@@ -1,5 +1,5 @@
+{% if request.user.is_authenticated %}
 <div class="card mb-3">
-  {% if request.user.is_authenticated %}
   <ul class="list-group list-group-flush">
     <a href="{% url 'update-account' %}"><li class="list-group-item">Tənzimlə</li></a>
     <a href="{% url 'change-password' %}"><li class="list-group-item">Şifrəni dəyişdir</li></a>
@@ -8,6 +8,7 @@
     <a href="{% url 'logout' %}"><div class="card-footer">Çıxış et</div></a>
   </ul>
   {% else %}
-
-  {% endif %}
+    <a href="{% url 'sign-up' %}"><li class="list-group-item">Qeydiyyat</li></a>
+    <a href="{% url 'sign-in' %}"><div class="card-footer">Giriş et</div></a>
 </div>
+{% endif %}
