@@ -14,5 +14,6 @@ urlpatterns = [
   path('delete/<slug:slug>', views.deleteBlog, name='delete-blog'),
   path('delete-commet/<int:id>/', views.deleteComment, name='delete-comment'),
   path('about/', TemplateView.as_view(template_name = 'pages/about.html'), name='about'),
-  path('redirect/', RedirectView.as_view(url='/about'))
+  path('redirect/', RedirectView.as_view(url='/about')),
+  path('email-sended/', TemplateView.as_view(template_name = 'pages/s-mail.html'), name='email-sended'),
 ]

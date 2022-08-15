@@ -37,13 +37,14 @@ def contact(request):
 
     # save method for forms.ModelForm
     form.save()
-    return redirect('index')
+    return redirect('email-sended')
   else:
     print('no valid')
   context = {
     'form': form
   }
   return render(request, 'pages/contact.html', context)
+
 
 @login_required(login_url='/')
 def myblogs(request):
